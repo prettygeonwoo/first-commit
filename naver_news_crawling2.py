@@ -12,8 +12,8 @@ url = 'https://search.naver.com/search.naver?where=news&query=%ED%98%84%EB%8C%80
 requests.get(url, headers={'User-Agent':'Mozilla/5.0'})
 
 # step3.requests 패키지의 함수를 이용해 url의 html 문서를 가져온다.
-response = requests.get(url) 
-html_text = response.text  
+response = requests.get(url)  #url주소로 get요청 보내기
+html_text = response.text     #text 속성을 통해 UTF-8로 인코딩된 문자열을 얻기
 
 # step4.bs4 패키지의 함수를 이용해서 html 문서를 파싱(어떤 페이한지(문서,html)에서 내가 원하는 데이터를 특정 패턴이나 순서로 추출해 가공)다.
 soup = bs(html_text, 'html.parser')
@@ -49,11 +49,11 @@ for i, naver_news in enumerate(naver_news_links):
     naver_news_html_text = naver_news_response.text
     naver_news_soup = bs(naver_news_html_text, 'html.parser')
         
-    title = naver_news_soup.select('h2.media_end_head_headline')[0].get_text()
+    title = naver_news_soup.select('h2.media_end_head_headline')[0].get_text()          #
     date = naver_news_soup.select('div.media_end_head_info_datestamp')[0].get_text()
     body = naver_news_soup.select('div._article_body')[0].get_text()
     text1 = title
-    text2 = re.sub(r'\<[^)]*\>','', body)
+    text2 = re.sub(r'\<[^)]*\>','', body)           #<>안의 문자들 제거
     text3 = date
     newsdb['title'] = text1
     newsdb['text'] = text2
@@ -65,5 +65,4 @@ import json
 with open("result.json", 'w') as file:
     json.dump(newsdbs, file,ensure_ascii=False, indent=4)     #ensure_ascii=False, indent=4   json파일에서 중요!
 
- #2021년 10월 31일 이후 기사들 긁어오기
- # attrs로 cru날짜 출력
+  
